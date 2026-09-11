@@ -1,0 +1,55 @@
+exp_name: "qwen3.5-4b_sample_math"
+
+# --------------------------------------------------------------------------
+# Model / server
+# --------------------------------------------------------------------------
+
+model_name: qwen-3.5-4b
+
+vllm_base_url: "http://localhost:8234/v1"
+
+api_key: "EMPTY"
+
+request_timeout: 7200
+
+# How many chat-completion requests to keep in flight at once against the
+# vLLM server, so its continuous batching has multiple sequences to batch.
+# null sends the full eval set at once.
+max_concurrency: null
+
+# --------------------------------------------------------------------------
+# Dataset
+# --------------------------------------------------------------------------
+
+dataset_path: datasets/CS6013_sample_math_format_dataset
+
+# Cap the number of examples evaluated; set to null to use the full split.
+limit: null
+
+# Instruction prepended to every problem (see build_math_prompt). 
+math_instruction: |
+  Answer the following mathematics problem. 
+  Please reason step by step, but keep the reasoning concise. 
+  After reasoning, output the final answer on its own last line using exactly this format: \boxed{X}, 
+  where X is the final mathematical answer. Generate \boxed{X} exactly once. 
+  Do not write anything after that line.
+
+# --------------------------------------------------------------------------
+# Sampling / decoding parameters
+# --------------------------------------------------------------------------
+max_new_tokens: 32000
+temperature: 1.0
+top_p: 0.95
+top_k: 20
+
+# Optional; each falls back to the value shown here if omitted.
+min_p: 0.0
+presence_penalty: 1.5
+repetition_penalty: 1.0
+
+enable_thinking: true
+
+# --------------------------------------------------------------------------
+# Output
+# --------------------------------------------------------------------------
+output: outputs/sample_math.json
